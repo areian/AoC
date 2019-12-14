@@ -18,7 +18,12 @@ fn main() -> std::io::Result<()> {
 }
 
 fn fuel_required(mass: isize) -> isize {
-    return mass / 3 - 2;
+    let mut fuel = mass / 3 - 2;
+
+    if fuel / 3 - 2 > 0 {
+        fuel += fuel_required(fuel);
+    }
+    return fuel;
 }
 
 #[cfg(test)]
@@ -29,7 +34,7 @@ mod tests {
     fn test_fuel_required() {
         assert_eq!(fuel_required(12), 2);
         assert_eq!(fuel_required(14), 2);
-        assert_eq!(fuel_required(1969), 654);
-        assert_eq!(fuel_required(100756), 33583);
+        assert_eq!(fuel_required(1969), 966);
+        assert_eq!(fuel_required(100756), 50346);
     }
 }
