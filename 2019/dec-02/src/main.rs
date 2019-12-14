@@ -6,11 +6,19 @@ use std::io::BufReader;
 fn main() -> Result<(), Box<dyn Error>> {
     let mut prog = init_program(String::from("input"))?;
 
-    prog[1] = 12;
-    prog[2] = 2;
+    for noun in 0..99 {
+        prog[1] = noun;
+        for verb in 0..99 {
+            prog[2] = verb;
+            let result = exec_prog(prog.clone());
+            if result[0] == 19690720 {
+                println!("Noun: {} - Verb: {}", noun, verb);
+                println!("Answer: {}", 100*noun+verb);
+                return Ok(());
+            }
+        }
+    }
 
-    let result = exec_prog(prog);
-    println!("Pos 0: {}", result[0]);
 
     return Ok(());
 }
