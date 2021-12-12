@@ -12,10 +12,11 @@ fn parse_command(command: &str) -> (isize, isize) {
 
 fn main() {
     let input = fs::read_to_string("input").expect("Something went wrong reading the file");
-    let inputs = input
-        .lines()
-        .map(parse_command)
-        //     depth, position, aim
-        .fold((0, 0, 0), |acc, x| (acc.0 + (acc.2 * x.1), acc.1 + x.1, acc.2 + x.0));
-    println!("{}", inputs.0 * inputs.1); // 1963088820
+    let (depth, pos, _) = input.lines().map(parse_command).fold(
+        (0, 0, 0),
+        |(depth, pos, aim), (aim_change, step)| {
+            (depth + (aim * step), pos + step, aim + aim_change)
+        },
+    );
+    println!("{}", depth * pos);
 }

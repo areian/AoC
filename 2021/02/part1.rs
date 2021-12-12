@@ -12,10 +12,10 @@ fn parse_command(command: &str) -> (isize, isize) {
 
 fn main() {
     let input = fs::read_to_string("input").expect("Something went wrong reading the file");
-    let inputs = input
+    let (depth, pos) = input
         .lines()
         .map(parse_command)
-        .reduce(|acc, x| (acc.0 + x.0, acc.1 + x.1))
+        .reduce(|(depth, pos), (depth_change, step)| (depth + depth_change, pos + step))
         .unwrap();
-    println!("{}", inputs.0 * inputs.1);
+    println!("{}", depth * pos);
 }
